@@ -2,8 +2,7 @@
 Itland / episerver
 
 #logins 
-1. admin: SqlServerMembershipProvider
-2. dev: WindowsMembershipProvider
+Both SqlMembership and WindowsMembership provider are supported
 
 #To set up the site: run the script SetupDevelopmentEnvironment under Tools folder
 The script is under development
