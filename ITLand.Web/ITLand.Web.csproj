@@ -219,6 +219,7 @@
   <ItemGroup>
     <Compile Include="Business\ContentExtensions.cs" />
     <Compile Include="Business\StringExtensions.cs" />
+    <Compile Include="Business\UrlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
