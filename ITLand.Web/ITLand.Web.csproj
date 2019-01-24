@@ -218,6 +218,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
     <Compile Include="Business\ContentExtensions.cs" />
+    <Compile Include="Business\HtmlHelperExtensions.cs" />
     <Compile Include="Business\StringExtensions.cs" />
     <Compile Include="Business\UrlExtensions.cs" />
     <Compile Include="Global.asax.cs">
