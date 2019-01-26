@@ -1,0 +1,9 @@
+﻿@using EPiServer.Web.Mvc.Html
+@model ITLand.Web.Models.Pages.StartPageType
+
+<h1 @Html.EditAttributes(m => m.Heading)>
+    @(Model.Heading ?? Model.Name)
+</h1>
+<div>
+    @Html.PropertyFor(m => m.MainBody)
+</div>
