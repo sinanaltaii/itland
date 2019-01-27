@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+	<language name="English" id="en">
+		<contentTypes>
+			<startpagetype>
+				<name>Start</name>
+				<description>Home page for the website</description>
+				<properties>
+					<heading>
+						<caption>Heading</caption>
+						<help>If the heading is not set, the page falls back to showing the name</help>
+					</heading>
+					<mainbody>
+						<caption>Main body</caption>
+						<help>The main body will be shown in the main content area of the page</help>
+					</mainbody>
+				</properties>
+			</startpagetype>
+		</contentTypes>
+	</language>
+</languages>
