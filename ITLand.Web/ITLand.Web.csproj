@@ -234,11 +234,12 @@
     <Folder Include="Models\Blocks\" />
     <Folder Include="Models\Media\" />
     <Folder Include="Models\Properties\" />
-    <Folder Include="Resources\" />
     <Folder Include="Static\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\LanguageFiles\EN_Custom.xml" />
+    <Content Include="Resources\LanguageFiles\SV_Custom.xml" />
     <Content Include="Views\Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
