@@ -234,6 +234,7 @@
     <Folder Include="Models\Blocks\" />
     <Folder Include="Models\Media\" />
     <Folder Include="Models\Properties\" />
+    <Folder Include="Resources\" />
     <Folder Include="Static\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
