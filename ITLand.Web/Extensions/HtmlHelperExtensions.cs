@@ -12,7 +12,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 
-namespace ITLand.Web.Business
+namespace ITLand.Web.Extensions
 {
     public static class HtmlHelperExtensions
     {

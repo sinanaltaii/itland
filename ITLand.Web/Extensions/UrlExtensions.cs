@@ -4,7 +4,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
-namespace ITLand.Web.Business
+namespace ITLand.Web.Extensions
 {
     public static class UrlExtensions
     {

@@ -218,10 +218,10 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
     <Compile Include="Editor\HideCategoryListEditorDescriptor.cs" />
-    <Compile Include="Business\ContentExtensions.cs" />
-    <Compile Include="Business\HtmlHelperExtensions.cs" />
-    <Compile Include="Business\StringExtensions.cs" />
-    <Compile Include="Business\UrlExtensions.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\UrlExtensions.cs" />
     <Compile Include="Features\StartPage\StartPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -6,7 +6,7 @@ using EPiServer.Filters;
 using EPiServer.Framework.Web;
 using EPiServer.ServiceLocation;
 
-namespace ITLand.Web.Business
+namespace ITLand.Web.Extensions
 {
     public static class ContentExtensions
     {

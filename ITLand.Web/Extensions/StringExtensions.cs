@@ -1,4 +1,4 @@
-﻿namespace ITLand.Web.Business
+﻿namespace ITLand.Web.Extensions
 {
     public static class StringExtensions
     {
