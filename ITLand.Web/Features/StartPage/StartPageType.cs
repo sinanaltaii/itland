@@ -3,7 +3,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
-namespace ITLand.Web.Models.Pages
+namespace ITLand.Web.Features.StartPage
 {
 	[ContentType(
 		DisplayName = "Start page",

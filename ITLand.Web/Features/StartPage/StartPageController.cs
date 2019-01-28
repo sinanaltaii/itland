@@ -1,8 +1,7 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Web.Mvc;
-using ITLand.Web.Models.Pages;
 
-namespace ITLand.Web.Controllers
+namespace ITLand.Web.Features.StartPage
 {
 	public class StartPageController : PageController<StartPageType>
 	{
