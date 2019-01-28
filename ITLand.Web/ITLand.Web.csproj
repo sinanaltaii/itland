@@ -222,20 +222,16 @@
     <Compile Include="Business\HtmlHelperExtensions.cs" />
     <Compile Include="Business\StringExtensions.cs" />
     <Compile Include="Business\UrlExtensions.cs" />
-    <Compile Include="Controllers\StartPageController.cs" />
+    <Compile Include="Features\StartPage\StartPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pages\StartPageType.cs" />
+    <Compile Include="Features\StartPage\StartPageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteGroupNames.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Blocks\" />
-    <Folder Include="Models\Media\" />
-    <Folder Include="Models\Properties\" />
     <Folder Include="Static\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\LanguageFiles\EN_Custom.xml" />
