@@ -6,6 +6,7 @@ ITLand.Web/AppData/blobs
 Development/AppData/Index
 *.Web/imagecache/*
 /ITLand.Web/License.config
+/ITLand.Web/App_Data/
 Development/*.Web/ui/img/icon/*
 Development/*.Web/ui/style/css/*.css
 Development/*.Web/ui/js/main.js
