@@ -105,6 +105,12 @@
     <Reference Include="EPiServer.Logging.Log4Net, Version=2.2.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.Logging.Log4Net.2.2.2\lib\net461\EPiServer.Logging.Log4Net.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.Search.Cms, Version=9.0.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Search.Cms.9.0.2\lib\net461\EPiServer.Search.Cms.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Search.IndexingService, Version=9.0.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Search.9.0.2\lib\net461\EPiServer.Search.IndexingService.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.ServiceLocation.StructureMap, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.ServiceLocation.StructureMap.2.0.1\lib\net461\EPiServer.ServiceLocation.StructureMap.dll</HintPath>
     </Reference>
@@ -120,8 +126,14 @@
     <Reference Include="EPiServer.Web.WebControls, Version=11.11.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.CMS.AspNet.11.11.0\lib\net461\EPiServer.Web.WebControls.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -238,6 +250,8 @@
     <Folder Include="Static\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="IndexingService\IndexingService.svc" />
+    <Content Include="modules\_protected\EPiServer.Search.Cms\IndexContent.aspx" />
     <Content Include="Resources\LanguageFiles\EN_Custom.xml" />
     <Content Include="Resources\LanguageFiles\SV_Custom.xml" />
     <Content Include="Views\Web.config" />
@@ -253,6 +267,7 @@
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="modules\_protected\EPiServer.Cms.TinyMce\web.config" />
     <Content Include="modules\_protected\EPiServer.Cms.TinyMce\EPiServer.Cms.TinyMce.zip" />
+    <Content Include="modules\_protected\EPiServer.Search.Cms\module.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
