@@ -239,6 +239,7 @@
     <Compile Include="Features\Shared\Media\DefaultFileMedia.cs" />
     <Compile Include="Features\Shared\Media\SvgFile.cs" />
     <Compile Include="Features\StartPage\StartPageController.cs" />
+    <Compile Include="Features\StartPage\StartPageViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

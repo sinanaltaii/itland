@@ -8,7 +8,8 @@ namespace ITLand.Web.Features.StartPage
 		public ActionResult Index(StartPageType currentPage)
 		{
 
-			return View(currentPage);
+			var model = new StartPageViewModel(currentPage.Heading, currentPage.MainBody);
+			return View(model);
 		}
 	}
 }
