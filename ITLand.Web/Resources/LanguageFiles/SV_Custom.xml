@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <languages>
-	<language name="Svenska" id="sv">
-		<contentTypes>
-			<startpagetype>
-				<name>Start</name>
-				<description>Hemsidan för sajten med område för block och sidor</description>
-				<properties>
-					<heading>
-						<caption>Rubrik</caption>
-						<help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
-					</heading>
-					<mainbody>
-						<caption>Brödtext</caption>
-						<help>Huvudyta för fritext</help>
-					</mainbody>
-				</properties>
-			</startpagetype>
-		</contentTypes>
-	</language>
+  <language name="Svenska" id="sv">
+    <contentTypes>
+      <startpagetype>
+        <name>Start</name>
+        <description>Hemsidan för sajten med område för block och sidor</description>
+        <properties>
+          <heading>
+            <caption>Rubrik</caption>
+            <help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
+          </heading>
+          <mainbody>
+            <caption>Brödtext</caption>
+            <help>Huvudyta för fritext</help>
+          </mainbody>
+        </properties>
+      </startpagetype>
+    </contentTypes>
+  </language>
 </languages>
