@@ -1,13 +1,22 @@
 [CmdletBinding()]
 param()
-$Bindings = "http:/*:80:{0}"
-$AvailableBindings = @("itland.local");
 $ScriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-$IisUserCredential = $null
-$IisUser = "dev"
-$SiteName = "itland.local"
-$WebRootPath = [System.IO.Path]::GetFullPath((Join-Path $ScriptDir "../ITLand.Web"))
-$ExitScriptNo = 2
+$ConfigFilePath = [System.IO.Path]::Combine($PSScriptRoot, "config.json")
+$AppPoolCredentials = $null
+$ExitScriptNo = 3
+
+Write-Host "Preparing dependencies needed to run script"
+if (-not(Get-Module -Name "Carbon")) {
+    Write-Verbose "Carbon module not found, importing now"
+    & (Join-Path -Path $ScriptDir -ChildPath Carbon\Import-Carbon.ps1 -Resolve)
+}
+
+try {
+    Write-Host "Reading configuration file..."
+    $Config = Get-Content -Raw -Path $ConfigFilePath | ConvertFrom-Json
+}
+catch {
+}
 
 while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
     Write-Host "`r`nAvailable options:`r`n" -ForegroundColor Cyan
@@ -23,42 +32,48 @@ while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
     }
 
     if ($Step -eq 1) {
-
-        if (-not(Get-Module -Name "Carbon")) {
-            Write-Verbose "Carbon module not found, importing now"
-            & (Join-Path -Path $ScriptDir -ChildPath Carbon\Import-Carbon.ps1 -Resolve)
-        }
-    
-        if ($null -eq $IisUserCredential) {
-            Write-Verbose "Getting IIS user credentials"
-            $IisUserCredential = Get-Credential ($IisUser)
-        }
-
-        Write-Verbose "Installing App pool"
-        Install-IisAppPool -Name $SiteName -Credential $IisUserCredential
+        try {
+            foreach ($site in $Config.sites) {
+                if ($null -eq $AppPoolCredentials) {
+                    Write-Verbose "Getting AppPool user credentials"
+                    $User = $site.appPoolUsername
+                    $Password = ConvertTo-SecureString -String $site.appPoolPassword -AsPlainText -Force
+                    $AppPoolCredentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $Password
+                    Write-Verbose "Installing App pool"
+                    Install-IisAppPool -Name $site.name -Credential $AppPoolCredentials
+                }
+                
+                $BindingList = @()
+                foreach ($binding in $site.bindings) {
+                    Write-Host "Adding $binding..."
+                    $BindingList += [string]::Format("http/*:80:{0}", $binding)
+                }
+                try {
+                    Write-Host "Installing IIS site $site.rootPath"
+                    Install-IisWebsite -Name $site.name -PhysicalPath $site.rootPath -Bindings $BindingList -AppPoolName $site.name
+                }
+                catch {
+                }
+                
+                Write-Verbose "Recycling App Pool"
+                $AppPool = Get-IisAppPool -Name $site.name
+                $AppPool.Recycle()
+                
+                foreach ($Address in $site.bindings) {
+                    Write-Verbose "Adding host entries to hosts file"
+                    Write-Verbose "Adding $ $site.binding to hosts file"
+                    Set-HostsEntry -IPAddress 127.0.0.1 -HostName $Address
+                }
         
-        $BindingList = @()
-        foreach ($Site in $AvailableBindings) {
-            $BindingList += $Bindings -f $Site
+                Write-Verbose "Starting web site $site.name"
+                $WebSite = Get-IisWebsite -Name $site.name
+                $WebSite.Start()
+            }
         }
-
-        Write-Verbose "Installing IIS site $WebRootPath"
-        Install-IisWebsite -Name $SiteName -PhysicalPath $WebRootPath -Bindings $BindingList -AppPoolName $SiteName
-        
-        Write-Verbose "Recycling App Pool"
-        $AppPool = Get-IisAppPool -Name $SiteName
-        $AppPool.Recycle()
-
-        Write-Verbose "Adding host entries to hosts file"
-        foreach ($Address in $AvailableBindings) {
-            Write-Verbose "Adding $address to hosts file"
-            Set-HostsEntry -IPAddress 127.0.0.1 -HostName $Address
+        catch {
         }
-
-        Write-Verbose "Starting web site $SiteName"
-        $WebSite = Get-IisWebsite -Name $SiteName
-        $WebSite.Start()
     }
+
     
     if ($Step -eq 2) {
         if (-not(Get-Module -Name "WebAdministration")) {
@@ -74,7 +89,7 @@ while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
         Write-Host "`nBye" -ForegroundColor Cyan
     }
 
-    if([string]::IsNullOrWhiteSpace($Step) -or ($Step -lt 1) -or -not ($Step -lt ($ExitScriptNo + 1))) {
+    if ([string]::IsNullOrWhiteSpace($Step) -or ($Step -lt 1) -or -not ($Step -lt ($ExitScriptNo + 1))) {
         Write-Host "`r`nPlease enter a valid option" -ForegroundColor "Red"
     }
 }
