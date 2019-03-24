@@ -16,7 +16,6 @@ try {
     $Config = Get-Content -Raw -Path $ConfigFilePath | ConvertFrom-Json
 }
 catch {
-    Write-Output $PSItem
 }
 
 while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
@@ -54,7 +53,6 @@ while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
                     Install-IisWebsite -Name $site.name -PhysicalPath $site.rootPath -Bindings $BindingList -AppPoolName $site.name
                 }
                 catch {
-                    Write-Output "Error occured: $($PSItem.ToString())"
                 }
                 
                 Write-Verbose "Recycling App Pool"
@@ -73,7 +71,6 @@ while (-not ($Step -eq $ExitScriptNo) -or ($null -eq $Step)) {
             }
         }
         catch {
-            Write-Output "Error occured: $($PSItem.ToString())"
         }
     }
 
