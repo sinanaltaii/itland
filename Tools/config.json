@@ -1,0 +1,28 @@
+{
+  "docker": {
+    "sqlContainerName": "mssql"
+  },
+  "sites": [
+    {
+      "appPoolUsername": "co\\saltaii",
+      "appPoolPassword": "Vinter2019",
+      "name": "itland.local",
+      "bindings": [
+        "itland.local"
+      ],
+      "rootPath": "../ITLand.Web"
+    }
+  ],
+  "databases": [
+    {
+      "target": "itlanddb",
+      "targetInstance": ".",
+      "source": "itlanddb",
+      "sourceInstance": "stos71.sto-pub.int",
+      "fetchDir": "\\\\change-me.co.int\\Temp",
+      "backupDir": "E:\\Temp",
+      "loginName": "itland",
+      "loginPassword": "!QAZxsw2"
+    }
+  ]
+}
