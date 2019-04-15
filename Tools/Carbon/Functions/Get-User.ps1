@@ -10,38 +10,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function Get-User
+function Get-CUser
 {
     <#
     .SYNOPSIS
     Gets *local* users.
 
     .DESCRIPTION
-    `Get-User` gets all *local* users. Use the `UserName` parameter to get  a specific user by its username.
+    `Get-CUser` gets all *local* users. Use the `UserName` parameter to get  a specific user by its username.
 
-    The objects returned by `Get-User` are instances of `System.DirectoryServices.AccountManagement.UserPrincipal`. These objects use external resources, which, if they are disposed of correctly, will cause memory leaks. When you're done using the objects returne by `Get-User`, call `Dispose()` on each one to clean up its external resources.
+    The objects returned by `Get-CUser` are instances of `System.DirectoryServices.AccountManagement.UserPrincipal`. These objects use external resources, which, if they are disposed of correctly, will cause memory leaks. When you're done using the objects returne by `Get-CUser`, call `Dispose()` on each one to clean up its external resources.
 
-    `Get-User` is new in Carbon 2.0.
+    `Get-CUser` is new in Carbon 2.0.
 
     .OUTPUTS
     System.DirectoryServices.AccountManagement.UserPrincipal.
 
     .LINK
-    Install-User
+    Install-CUser
 
     .LINK
-    Test-User
+    Test-CUser
 
     .LINK
-    Uninstall-User
+    Uninstall-CUser
 
     .EXAMPLE
-    Get-User
+    Get-CUser
 
     Demonstrates how to get all local users.
 
     .EXAMPLE
-    Get-User -Username LSkywalker 
+    Get-CUser -Username LSkywalker 
 
     Demonstrates how to get a specific user.
     #>
@@ -55,23 +55,25 @@ function Get-User
     )
 
     Set-StrictMode -Version 'Latest'
-
     Use-CallerPreference -Cmdlet $PSCmdlet -Session $ExecutionContext.SessionState
     
     $ctx = New-Object 'DirectoryServices.AccountManagement.PrincipalContext' ([DirectoryServices.AccountManagement.ContextType]::Machine)
     if( $Username )
     {
-        $user = [DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity( $ctx, $Username )
+        $userToFind = New-Object 'DirectoryServices.AccountManagement.UserPrincipal' $ctx
+        $userToFind.SamAccountName = $UserName
+        $searcher = New-Object 'DirectoryServices.AccountManagement.PrincipalSearcher' $userToFind
+        $user = $searcher.FindOne()
         if( -not $user )
         {
-            try
+            # Fallback. PrincipalSearch can't find some users.
+            $ctx.Dispose()
+            $ctx = New-Object 'DirectoryServices.AccountManagement.PrincipalContext' ([DirectoryServices.AccountManagement.ContextType]::Machine)
+            $user = [DirectoryServices.AccountManagement.UserPrincipal]::FindByIdentity( $ctx, $Username )
+            if( -not $user )
             {
-                Write-Error ('Local user ''{0}'' not found.' -f $Username) -ErrorAction:$ErrorActionPreference
+                Write-Error ('Local user "{0}" not found.' -f $Username) -ErrorAction:$ErrorActionPreference
                 return
-            }
-            finally
-            {
-                $ctx.Dispose()
             }
         }
         return $user
@@ -91,4 +93,3 @@ function Get-User
         }
     }
 }
-

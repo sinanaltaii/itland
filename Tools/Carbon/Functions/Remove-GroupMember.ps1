@@ -10,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function Remove-GroupMember
+function Remove-CGroupMember
 {
     <#
     .SYNOPSIS
@@ -23,15 +23,15 @@ function Remove-GroupMember
 
     If the user or group is not a member, nothing happens.
 
-    `Remove-GroupMember` is new in Carbon 2.0.
+    `Remove-CGroupMember` is new in Carbon 2.0.
 
     .EXAMPLE
-    Remove-GroupMember -Name Administrators -Member EMPIRE\DarthVader,EMPIRE\EmperorPalpatine,REBELS\LSkywalker
+    Remove-CGroupMember -Name Administrators -Member EMPIRE\DarthVader,EMPIRE\EmperorPalpatine,REBELS\LSkywalker
 
     Removes Darth Vader, Emperor Palpatine and Luke Skywalker from the local administrators group.
 
     .EXAMPLE
-    Remove-GroupMember -Name TieFighters -Member NetworkService
+    Remove-CGroupMember -Name TieFighters -Member NetworkService
 
     Removes the local NetworkService account from the local TieFighters group.
     #>
@@ -50,10 +50,9 @@ function Remove-GroupMember
     )
 
     Set-StrictMode -Version 'Latest'
-
     Use-CallerPreference -Cmdlet $PSCmdlet -Session $ExecutionContext.SessionState
     
-    [DirectoryServices.AccountManagement.GroupPrincipal]$group = Get-Group -Name $Name
+    [DirectoryServices.AccountManagement.GroupPrincipal]$group = Get-CGroup -Name $Name
     if( -not $group )
     {
         return
@@ -63,19 +62,19 @@ function Remove-GroupMember
     {
         foreach( $_member in $Member )
         {
-            $identity = Resolve-Identity -Name $_member
+            $identity = Resolve-CIdentity -Name $_member
             if( -not $identity )
             {
                 continue
             }
 
-            if( -not (Test-GroupMember -GroupName $group.Name -Member $_member) )
+            if( -not (Test-CGroupMember -GroupName $group.Name -Member $_member) )
             {
                 continue
             }
 
             Write-Verbose -Message ('[{0}] Members      {1} ->' -f $Name,$identity.FullName)
-            if( -not $PSCmdlet.ShouldProcess(('removing ''{0}'' from local group ''{1}''' -f $identity.FullName, $group.Name), $null, $null) )
+            if( -not $PSCmdlet.ShouldProcess(('removing "{0}" from local group "{1}"' -f $identity.FullName, $group.Name), $null, $null) )
             {
                 continue
             }
@@ -86,7 +85,7 @@ function Remove-GroupMember
             }
             catch
             {
-                Write-Error ('Failed to remove ''{0}'' from local group ''{1}'': {2}.' -f $identity,$group.Name,$_)
+                Write-Error ('Failed to remove "{0}" from local group "{1}": {2}.' -f $identity,$group.Name,$_)
             }
         }
     }

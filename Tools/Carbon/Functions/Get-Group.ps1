@@ -10,32 +10,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function Get-Group
+function Get-CGroup
 {
     <#
     .SYNOPSIS
     Gets *local* groups.
 
     .DESCRIPTION
-    `Get-Group` gets all *local* groups or a specific group by its name.
+    `Get-CGroup` gets all *local* groups or a specific group by its name.
 
     The objects returned, `DirectoryServices.AccountManagement.GroupPrincipal`, use external resources, which means they don't clean up propertly when garbage collected, resulting in memory leaks. You should call `Dispose()` on the objects you receieve from this function when you're done using them so these external resources can be cleaned up correctly.
 
-    `Get-Group` is new in Carbon 2.0.
+    `Get-CGroup` is new in Carbon 2.0.
 
     .OUTPUTS
     System.DirectoryServices.AccountManagement.GroupPrincipal.
 
     .LINK
-    Get-User
+    Get-CUser
 
     .EXAMPLE
-    Get-Group
+    Get-CGroup
 
     Demonstrates how to get all local groups.
 
     .EXAMPLE
-    Get-Group -Name RebelAlliance
+    Get-CGroup -Name RebelAlliance
 
     Demonstrates how to get a specific group.
     #>
@@ -48,23 +48,40 @@ function Get-Group
     )
 
     Set-StrictMode -Version 'Latest'
-
     Use-CallerPreference -Cmdlet $PSCmdlet -Session $ExecutionContext.SessionState
     
     $ctx = New-Object 'DirectoryServices.AccountManagement.PrincipalContext' ([DirectoryServices.AccountManagement.ContextType]::Machine)
     if( $Name )
     {
-        $group = [DirectoryServices.AccountManagement.GroupPrincipal]::FindByIdentity( $ctx, $Name )
+        $groupToFind = New-Object 'DirectoryServices.AccountManagement.GroupPrincipal' $ctx
+        $groupToFind.Name = $Name
+        $searcher = New-Object 'DirectoryServices.AccountManagement.PrincipalSearcher' $groupToFind
+        $group = $null
+        $numErrors = $Global:Error.Count
+        try
+        {
+            $group = $searcher.FindOne()
+        }
+        catch
+        {
+            $numErrorsNow = $Global:Error.Count
+            $numErrorsToDelete = $numErrorsNow - $numErrors
+            for( $idx = 0; $idx -lt $numErrorsToDelete; ++$idx )
+            {
+                $Global:Error.RemoveAt(0)
+            }
+        }
+
         if( -not $group )
         {
-            try
+            # Fall back. PrincipalSearch can't find some identities
+            $ctx.Dispose()
+            $ctx = New-Object 'DirectoryServices.AccountManagement.PrincipalContext' ([DirectoryServices.AccountManagement.ContextType]::Machine)
+            $group = [DirectoryServices.AccountManagement.GroupPrincipal]::FindByIdentity( $ctx, $Name )
+            if( -not $group )
             {
-                Write-Error ('Local group ''{0}'' not found.' -f $Name) -ErrorAction:$ErrorActionPreference
+                Write-Error ('Local group "{0}" not found.' -f $Name) -ErrorAction:$ErrorActionPreference
                 return
-            }
-            finally
-            {
-                $ctx.Dispose()
             }
         }
         return $group
@@ -84,4 +101,3 @@ function Get-Group
         }
     }
 }
-

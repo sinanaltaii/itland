@@ -40,6 +40,12 @@ function Get-TargetResource
 
     Set-StrictMode -Version 'Latest'
 
+    $canonicalName = $Name
+    if( -not $canonicalName.StartsWith('\') )
+    {
+        $canonicalName = '\{0}' -f $canonicalName
+    }
+
     $resource = @{
                     Name = $Name;
                     TaskXml = '';
@@ -47,12 +53,18 @@ function Get-TargetResource
                     Ensure = 'Absent';
                 }
 
-    if( (Test-ScheduledTask -Name $Name) )
+    if( (Test-CScheduledTask -Name $canonicalName) )
     {
-        $task = Get-ScheduledTask -Name $Name
-        $resource.TaskCredential = $task.RunAsUser
-        $resource.TaskXml = schtasks.exe /query /xml /tn $Name | Where-Object { $_ }
-        $resource.TaskXml = $resource.TaskXml -join ([Environment]::NewLine)
+        $task = Get-CScheduledTask -Name $canonicalName -AsComObject
+        $principal = $task.Definition.Principal
+        $principalName = $principal.UserId
+        if( -not $principalName )
+        {
+            $principalName = $principal.GroupId
+        }
+
+        $resource.TaskCredential = $principalname
+        $resource.TaskXml = $task.Xml
         $resource.Ensure = 'Present'
     }
 
@@ -74,16 +86,16 @@ function Set-TargetResource
     `Carbon_ScheduledTask` is new in Carbon 2.0.
 
     .LINK
-    Get-ScheduledTask
+    Get-CScheduledTask
 
     .LINK
-    Install-ScheduledTask
+    Install-CScheduledTask
 
     .LINK
-    Test-ScheduledTask
+    Test-CScheduledTask
 
     .LINK
-    Uninstall-ScheduledTask
+    Uninstall-CScheduledTask
 
     .LINK
     http://technet.microsoft.com/en-us/library/cc725744.aspx#BKMK_create
@@ -136,7 +148,7 @@ function Set-TargetResource
         $TaskXml,
 
         [Management.Automation.PSCredential]
-        # The principal the task should run as. Use `Principal` parameter to run as a built-in security principal. Required if `Interactive` or `NoPassword` switches are used.
+        # The identity that should run the task. The default is `SYSTEM`.
         $TaskCredential,
 
         [ValidateSet('Present','Absent')]
@@ -152,7 +164,7 @@ function Set-TargetResource
     if( $Ensure -eq 'Present' )
     {
         $installParams = @{ }
-        if( (Test-ScheduledTask -Name $Name ) )
+        if( (Test-CScheduledTask -Name $Name ) )
         {
             Write-Verbose ('[{0}] Re-installing' -f $Name)
             $installParams['Force'] = $true
@@ -161,12 +173,12 @@ function Set-TargetResource
         {
             Write-Verbose ('[{0}] Installing' -f $Name)
         }
-        Install-ScheduledTask @PSBoundParameters @installParams
+        Install-CScheduledTask @PSBoundParameters @installParams
     }
     else
     {
         Write-Verbose ('[{0}] Uninstalling' -f $Name)
-        Uninstall-ScheduledTask -Name $Name
+        Uninstall-CScheduledTask -Name $Name
     }
 
 }
@@ -269,10 +281,15 @@ function Test-TargetResource
             Write-Verbose ('[{0}] Task XML unchanged' -f $Name)
         }
 
-        if( $TaskCredential -and $resource.TaskCredential -ne $TaskCredential.UserName )
+        if( $TaskCredential )
         {
-            Write-Verbose ('[{0}] [TaskCredential] {0} != {1}' -f $Name,$resource.TaskCredential,$TaskCredential.UserName)
-            return $false
+            $resourceUserName = $resource.TaskCredential | ForEach-Object { Resolve-CIdentityName -Name $_ }
+            $desiredUserName = $TaskCredential.UserName | ForEach-Object { Resolve-CIdentityName -Name $_ }
+            if( $resourceUserName -ne $desiredUserName )
+            {
+                Write-Verbose ('[{0}] [TaskCredential] {1} != {2}' -f $Name,$resourceUserName,$desiredUserName) -Verbose
+                return $false
+            }
         }
 
         return $true

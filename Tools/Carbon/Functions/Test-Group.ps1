@@ -10,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function Test-Group
+function Test-CGroup
 {
     <#
     .SYNOPSIS
@@ -23,16 +23,16 @@ function Test-Group
     System.Boolean
 
     .LINK
-    Get-Group
+    Get-CGroup
 
     .LINK
-    Install-Group
+    Install-CGroup
 
     .LINK
-    Uninstall-Group
+    Uninstall-CGroup
 
     .EXAMPLE
-    Test-Group -Name RebelAlliance
+    Test-CGroup -Name RebelAlliance
 
     Checks if the `RebelAlliance` *local* group exists.  Returns `True` if it does, `False` if it doesn't.
     #>
@@ -45,26 +45,17 @@ function Test-Group
     )
 
     Set-StrictMode -Version 'Latest'
-
     Use-CallerPreference -Cmdlet $PSCmdlet -Session $ExecutionContext.SessionState
     
-    $ctx = New-Object 'DirectoryServices.AccountManagement.PrincipalContext' ([DirectoryServices.AccountManagement.ContextType]::Machine)
-    $group = [DirectoryServices.AccountManagement.GroupPrincipal]::FindByIdentity( $ctx, $Name )
-    try
+    $group = Get-CGroup -Name $Name -ErrorAction Ignore
+    if( $group )
     {
-        if( $group )
-        {
-            $group.Dispose()
-            return $true
-        }
-        else
-        {
-            return $false
-        }
+        $group.Dispose()
+        return $true
     }
-    finally
+    else
     {
-        $ctx.Dispose()
+        return $false
     }
 }
 

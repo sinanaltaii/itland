@@ -10,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function Initialize-Lcm
+function Initialize-CLcm
 {
     <#
     .SYNOPSIS
@@ -24,6 +24,8 @@ function Initialize-Lcm
     Push mode is simplest. The LCM only applies configurations that are pushed to it via `Start-DscConfiguration`. It is expected that all resources needed by the LCM are installed and available on the computer. To use `Push` mode, use the `Push` switch.
 
     ## Pull Mode
+
+    ***NOTE: You can't use `Initialize-CLcm` to put the local configuration manager in pull mode on Windows 2016 or later.***
     
     In order to get a computer to pulls its configuration automatically, you need to configure its LCM so it knows where and how to find its DSC pull server. The pull server holds all the resources and modules needed by the computer's configuration.
 
@@ -37,7 +39,7 @@ function Initialize-Lcm
      * `ApplyAndMonitor`: The same as `ApplyOnly`, but if the configuration drifts, it is reported in event logs.
      * `ApplyAndAutoCorrect`: The same as `ApplyOnly`, and when the configuratio drifts, the discrepency is reported in event logs, and the LCM attempts to correct the configuration drift.
 
-    When credentials are needed on the target computer, the DSC system encrypts those credentials with a public key when generating the configuration. Those credentials are then decrypted on the target computer, using the corresponding private key. A computer can't run its configuration until the private key is installed. Use the `CertFile` and `CertPassword` parameters to specify the path to the certificate containing the private key and the private key's password, respectively. This function will use Carbon's `Install-Certificate` function to upload the certificate to the target computer and install it in the proper Windows certificate store. To generate a public/private key pair, use `New-RsaKeyPair`.
+    When credentials are needed on the target computer, the DSC system encrypts those credentials with a public key when generating the configuration. Those credentials are then decrypted on the target computer, using the corresponding private key. A computer can't run its configuration until the private key is installed. Use the `CertFile` and `CertPassword` parameters to specify the path to the certificate containing the private key and the private key's password, respectively. This function will use Carbon's `Install-CCertificate` function to upload the certificate to the target computer and install it in the proper Windows certificate store. To generate a public/private key pair, use `New-CRsaKeyPair`.
 
     Returns an object representing the computer's updated LCM settings.
 
@@ -45,42 +47,44 @@ function Initialize-Lcm
 
     This function is not available in 32-bit PowerShell 4 processes on 64-bit operating systems.
 
-    `Initialize-Lcm` is new in Carbon 2.0.
+    `Initialize-CLcm` is new in Carbon 2.0.
+
+    You cannot use `Initialize-CLcm
 
     .LINK
-    New-RsaKeyPair
+    New-CRsaKeyPair
 
     .LINK
-    Start-DscPullConfiguration
+    Start-CDscPullConfiguration
 
     .LINK
-    Install-Certificate
+    Install-CCertificate
     
     .LINK
     http://technet.microsoft.com/en-us/library/dn249922.aspx
 
     .EXAMPLE
-    Initialize-Lcm -Push -ComputerName '1.2.3.4'
+    Initialize-CLcm -Push -ComputerName '1.2.3.4'
 
     Demonstrates how to configure an LCM to use push mode.
 
     .EXAMPLE
-    Initialize-Lcm -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -ServerUrl 'https://10.4.5.6/PSDSCPullServer.dsc'
+    Initialize-CLcm -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -ServerUrl 'https://10.4.5.6/PSDSCPullServer.dsc'
 
-    Demonstrates the minimum needed to configure a computer (in this case, `10.1.2.3`) to pull its configuration from a DSC web server.
-
-    .EXAMPLE
-    Initialize-Lcm -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
-
-    Demonstrates the minimum needed to configure a computer (in this case, `10.1.2.3`) to pull its configuration from an SMB file share.
+    Demonstrates the minimum needed to configure a computer (in this case, `10.1.2.3`) to pull its configuration from a DSC web server. You can't do this on Windows 2016 or later.
 
     .EXAMPLE
-    Initialize-Lcm -CertFile 'D:\Projects\Resources\PrivateKey.pfx' -CertPassword $secureStringPassword -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
+    Initialize-CLcm -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
+
+    Demonstrates the minimum needed to configure a computer (in this case, `10.1.2.3`) to pull its configuration from an SMB file share. You can't do this on Windows 2016 or later.
+
+    .EXAMPLE
+    Initialize-CLcm -CertFile 'D:\Projects\Resources\PrivateKey.pfx' -CertPassword $secureStringPassword -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
 
     Demonstrates how to upload the private key certificate on to the targer computer(s).
 
     .EXAMPLE
-    Initialize-Lcm -RefreshIntervalMinutes 25 -ConfigurationFrequency 3 -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
+    Initialize-CLcm -RefreshIntervalMinutes 25 -ConfigurationFrequency 3 -ConfigurationID 'fc2ffe50-13cd-4cd2-9942-d25ac66d6c13' -ComputerName '10.1.2.3' -SourcePath '\\10.4.5.6\DSCResources'
 
     Demonstrates how to use the `RefreshIntervalMinutes` and `ConfigurationFrequency` parameters to control when the LCM downloads new configuration and applies that configuration. In this case, new configuration is downloaded every 25 minutes, and apllied every 75 minutes (`RefreshIntervalMinutes * ConfigurationFrequency`).
     #>
@@ -175,12 +179,20 @@ function Initialize-Lcm
     )
 
     Set-StrictMode -Version 'Latest'
-
     Use-CallerPreference -Cmdlet $PSCmdlet -Session $ExecutionContext.SessionState
+
+    if( $PSCmdlet.ParameterSetName -match '^Pull(File|Web)DownloadManager' )
+    {
+        if( [Environment]::OSVersion.Version.Major -ge 10 )
+        {
+            Write-Error -Message ('Initialize-CLcm can''t configure the local configuration manager to use the file or web download manager on Windows Server 2016 or later.')
+            return
+        }
+    }
 
     if( $CertPassword -and $CertPassword -isnot [securestring] )
     {
-        Write-Warning -Message ('You passed a plain text password to `Initialize-Lcm`. A future version of Carbon will remove support for plain-text passwords. Please pass a `SecureString` instead.')
+        Write-Warning -Message ('You passed a plain text password to `Initialize-CLcm`. A future version of Carbon will remove support for plain-text passwords. Please pass a `SecureString` instead.')
         $CertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText -Force
     }
     
@@ -193,14 +205,14 @@ function Initialize-Lcm
     $privateKey = $null
     if( $CertFile )
     {
-        $CertFile = Resolve-FullPath -Path $CertFile
+        $CertFile = Resolve-CFullPath -Path $CertFile
         if( -not (Test-Path -Path $CertFile -PathType Leaf) )
         {
             Write-Error ('Certificate file ''{0}'' not found.' -f $CertFile)
             return
         }
 
-        $privateKey = Get-Certificate -Path $CertFile -Password $CertPassword
+        $privateKey = Get-CCertificate -Path $CertFile -Password $CertPassword
         if( -not $privateKey )
         {
             return
@@ -246,7 +258,7 @@ function Initialize-Lcm
 
         try
         {
-            Install-Certificate -Session $session `
+            Install-CCertificate -Session $session `
                                 -Path $CertFile `
                                 -Password $CertPassword `
                                 -StoreLocation ([Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine) `
@@ -322,7 +334,7 @@ function Initialize-Lcm
 
         $WhatIfPreference = $originalWhatIf
 
-        $tempDir = New-TempDirectory -Prefix 'Carbon+Initialize-Lcm+' -WhatIf:$false
+        $tempDir = New-CTempDirectory -Prefix 'Carbon+Initialize-CLcm+' -WhatIf:$false
 
         try
         {

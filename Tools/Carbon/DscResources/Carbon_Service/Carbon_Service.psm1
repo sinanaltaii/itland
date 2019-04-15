@@ -30,6 +30,9 @@ function Get-TargetResource
         [string]
         # The startup type: automatic, manual, or disabled.  Default is automatic.
         $StartupType,
+
+        [Switch]
+        $Delayed,
         
         [Carbon.Service.FailureAction]
         # What to do on the service's first failure.  Default is to take no action.
@@ -84,10 +87,14 @@ function Get-TargetResource
         # The credentials of the custom account the service should run as.
         $Credential,
         
+        [string[]]
+        # The arguments/startup parameters for the service
+        $ArgumentList,
+
         [ValidateSet('Present','Absent')]
         [string]
         # If `Present`, the service is installed/updated. If `Absent`, the service is removed.
-        $Ensure = 'Present'
+        $Ensure = 'Present'        
     )
 
     Set-StrictMode -Version 'Latest'
@@ -96,6 +103,7 @@ function Get-TargetResource
                     Name = $Name;
                     Path = $null;
                     StartupType = $null;
+                    Delayed = $null;
                     OnFirstFailure = $null;
                     OnSecondFailure = $null;
                     OnThirdFailure = $null;
@@ -110,13 +118,16 @@ function Get-TargetResource
                     UserName = $null;
                     Credential = $null;
                     Ensure = 'Absent';
+                    ArgumentList = $null;
                 }
 
-    if( Test-Service -Name $Name )
+    if( Test-CService -Name $Name )
     {
         $service = Get-Service -Name $Name
-        $resource.Path = $service.Path
+        
+        $resource.Path,$resource.ArgumentList = [Carbon.Shell.Command]::Split($service.Path)
         $resource.StartupType = $service.StartMode
+        $resource.Delayed = $service.DelayedAutoStart
         $resource.OnFirstFailure = $service.FirstFailure
         $resource.OnSecondFailure = $service.SecondFailure
         $resource.OnThirdFailure = $service.ThirdFailure
@@ -128,10 +139,14 @@ function Get-TargetResource
         $resource.DisplayName = $service.DisplayName
         $resource.Description = $service.Description
         $resource.UserName = $service.UserName
-        $actualUserName = Resolve-Identity -Name $service.UserName -ErrorAction Ignore
-        if( $actualUserName )
+        $actualUserName = ''
+        if( $service.UserName )
         {
-            $resource.UserName = $actualUserName.FullName
+            $actualUserName = Resolve-CIdentity -Name $service.UserName -ErrorAction Ignore
+            if( $actualUserName )
+            {
+                $resource.UserName = $actualUserName.FullName
+            }
         }
         [string[]]$resource.Dependency = $service.ServicesDependedOn | Select-Object -ExpandProperty Name
         $resource.Ensure = 'Present'
@@ -158,13 +173,13 @@ function Set-TargetResource
     `Carbon_Service` is new in Carbon 2.0.
 
     .LINK
-    Grant-Privilege
+    Grant-CPrivilege
 
     .LINK
-    Install-Service
+    Install-CService
 
     .LINK
-    Uninstall-Service
+    Uninstall-CService
 
     .EXAMPLE
     >
@@ -204,6 +219,19 @@ function Set-TargetResource
             Name = 'CarbonNoOpService';
             Ensure = 'Absent';
         }
+
+    .EXAMPLE
+    >
+    Demonstrates how to set a service's start type `Automatic (Delayed)`. This functionality was added in Carbon 2.5.
+
+        Carbon_Service InstallNoOpService
+        {
+            Name = 'CarbonNoOpService';
+            Path = 'C:\Projects\Carbon\bin\NoOpService.bin';
+            StartupType = 'Automatic';
+            Delayed = $true;
+            Ensure = 'Present';
+        }
     #>
     [CmdletBinding()]
     param(
@@ -220,6 +248,18 @@ function Set-TargetResource
         [string]
         # The startup type: automatic, manual, or disabled.  Default is automatic.
         $StartupType,
+
+        [Switch]
+        # Used in combination with the `StartupType` parameter to set a service's startup type to `Automatic (Delayed)`.
+        #
+        # If `Delayed` is true true, and `StartupType` is `Automatic` sets the service's startup type to `Automatic (Delayed)`. 
+        #
+        # If `Delayed` is false and `StartupType` is `Automatic, sets the service's startup type to `Automatic`.
+        #
+        # For all other values of `StartupType`, this parameter is ignored.
+        #
+        # This parameter was added in Carbon 2.5.
+        $Delayed,
         
         [Carbon.Service.FailureAction]
         # What to do on the service's first failure.  Default is to take no action.
@@ -274,6 +314,10 @@ function Set-TargetResource
         # The credentials of the custom account the service should run as.
         $Credential,
         
+        [string[]]
+        # The arguments/startup parameters for the service
+        $ArgumentList,
+
         [ValidateSet('Present','Absent')]
         [string]
         # If `Present`, the service is installed/updated. If `Absent`, the service is removed.
@@ -282,13 +326,13 @@ function Set-TargetResource
 
     Set-StrictMode -Version 'Latest'
 
-    $serviceExists = Test-Service -Name $Name
+    $serviceExists = Test-CService -Name $Name
     if( $Ensure -eq 'Absent' )
     {
         if( $serviceExists )
         {
             Write-Verbose ('Removing service ''{0}''' -f $Name)
-            Uninstall-Service -Name $Name
+            Uninstall-CService -Name $Name
         }
         return
     }
@@ -315,7 +359,7 @@ function Set-TargetResource
         Write-Verbose ('Installing service ''{0}''' -f $Name)
     }
 
-    Install-Service @PSBoundParameters
+    Install-CService @PSBoundParameters
 }
 
 
@@ -337,6 +381,9 @@ function Test-TargetResource
         [string]
         # The startup type: automatic, manual, or disabled.  Default is automatic.
         $StartupType,
+
+        [Switch]
+        $Delayed,
         
         [Carbon.Service.FailureAction]
         # What to do on the service's first failure.  Default is to take no action.
@@ -391,6 +438,10 @@ function Test-TargetResource
         # The custom account the service should run as.
         $Credential,
         
+        [string[]]
+        # The arguments/startup parameters for the service
+        $ArgumentList,
+
         [ValidateSet('Present','Absent')]
         [string]
         # If `Present`, the service is installed/updated. If `Absent`, the service is removed.
@@ -420,7 +471,7 @@ function Test-TargetResource
 
     if( $PSBoundParameters.ContainsKey( 'UserName' ) )
     {
-        $identity = Resolve-Identity -Name $UserName
+        $identity = Resolve-CIdentity -Name $UserName
         if( $identity )
         {
             $PSBoundParameters['UserName'] = $identity.FullName
@@ -435,12 +486,12 @@ function Test-TargetResource
     if( $PSBoundParameters.ContainsKey('Credential') )
     {
         [void]$PSBoundParameters.Remove('Credential')
-        $identity = Resolve-Identity -Name $Credential.UserName -ErrorAction Ignore
+        $identity = Resolve-CIdentity -Name $Credential.UserName -ErrorAction Ignore
         if( $identity )
         {
             $PSBoundParameters.UserName = $identity.FullName
         }
     }
 
-    return Test-DscTargetResource -TargetResource $resource -DesiredResource $PSBoundParameters -Target ('Service ''{0}''' -f $Name)
+    return Test-CDscTargetResource -TargetResource $resource -DesiredResource $PSBoundParameters -Target ('Service ''{0}''' -f $Name)
 }
