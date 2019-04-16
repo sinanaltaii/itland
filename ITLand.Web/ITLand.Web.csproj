@@ -234,18 +234,25 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
+    <Compile Include="Features\Article\ArticlePage.cs" />
+    <Compile Include="Features\Article\ArticlePageController.cs" />
+    <Compile Include="Features\Article\ArticlePageViewModel.cs" />
+    <Compile Include="Features\Article\ArticlePageViewModeFactory.cs" />
+    <Compile Include="Features\Shared\IPage.cs" />
+    <Compile Include="Features\Shared\IViewModelFactory.cs" />
     <Compile Include="Features\Shared\Media\ImageFile.cs" />
     <Compile Include="Features\Shared\Media\Pdf.cs" />
     <Compile Include="Features\Shared\Media\DefaultFileMedia.cs" />
     <Compile Include="Features\Shared\Media\SvgFile.cs" />
-    <Compile Include="Features\StartPage\StartPageController.cs" />
-    <Compile Include="Features\StartPage\StartPageViewModel.cs" />
+    <Compile Include="Features\Start\StartPageController.cs" />
+    <Compile Include="Features\Start\StartPageViewModel.cs" />
+    <Compile Include="Features\Start\StartPageViewModelFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Features\StartPage\StartPageType.cs" />
+    <Compile Include="Features\Start\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SiteGroupNames.cs" />
+    <Compile Include="Features\Shared\SiteGroupNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Static\" />
@@ -253,8 +260,12 @@
   <ItemGroup>
     <Content Include="IndexingService\IndexingService.svc" />
     <Content Include="modules\_protected\EPiServer.Search.Cms\IndexContent.aspx" />
-    <Content Include="Resources\LanguageFiles\EN_Custom.xml" />
-    <Content Include="Resources\LanguageFiles\SV_Custom.xml" />
+    <Content Include="Resources\LanguageFiles\EN_Custom.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\LanguageFiles\SV_Custom.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -273,6 +284,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\StartPage\Index.cshtml" />
+    <Content Include="Views\ArticlePage\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
