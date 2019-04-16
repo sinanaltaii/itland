@@ -1,6 +1,6 @@
 ﻿using EPiServer.Core;
 
-namespace ITLand.Web.Features.StartPage
+namespace ITLand.Web.Features.Start
 {
 	public class StartPageViewModel
 	{
