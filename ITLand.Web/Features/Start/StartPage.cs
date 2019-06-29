@@ -14,7 +14,7 @@ namespace ITLand.Web.Features.Start
 	public class StartPage : PageData, IPage
 	{
 		[CultureSpecific]
-		[Display(Name = "Start page heading", Description = "Heading",
+		[Display(Name = "Start page heading",
 			GroupName = SystemTabNames.Content,
 			Order = 10)]
 		public virtual string Heading { get; set; }
@@ -27,9 +27,12 @@ namespace ITLand.Web.Features.Start
 		[CultureSpecific]
 		[Display(
 			Name = "Main body",
-			Description = "The main body containing content, text and etc.",
 			GroupName = SystemTabNames.Content,
 			Order = 30)]
 		public virtual XhtmlString MainBody { get; set; }
+
+		[CultureSpecific]
+		[Display(Order = 40, GroupName = SystemTabNames.Content)]
+		public virtual ContentArea MainContentArea { get; set; }
 	}
 }
