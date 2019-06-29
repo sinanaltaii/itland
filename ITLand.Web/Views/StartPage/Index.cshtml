@@ -1,9 +1,11 @@
-﻿@using EPiServer.Web.Mvc.Html
+﻿@using EPiServer.Shell.Navigation
+
 @model ITLand.Web.Features.Start.StartPageViewModel
 
 <h1 @Html.EditAttributes(m => m.Heading)>
-	@(Model.Heading)
+    @Model.Heading
 </h1>
 <div>
-	@Html.PropertyFor(m => m.MainBody)
+    @Html.PropertyFor(m => m.MainBody)
 </div>
+@Html.Raw(MenuHelper.CreatePlatformNavigationMenu())
