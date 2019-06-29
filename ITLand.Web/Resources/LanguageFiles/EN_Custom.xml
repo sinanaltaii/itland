@@ -1,43 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <languages>
-	<language name="English" id="en">
-		<contenttypes>
-			<startpage>
-				<name>Start</name>
-				<description>Home page for the website</description>
-				<properties>
-					<heading>
-						<caption>Heading</caption>
-						<help>If the heading is not set, the page falls back to showing the name</help>
-					</heading>
-					<preamble>
-						<caption>Preamble</caption>
-						<help>Text before main boody</help>
-					</preamble>
-					<mainbody>
-						<caption>Main body</caption>
-						<help>The main body will be shown in the main content area of the page</help>
-					</mainbody>
-				</properties>
-			</startpage>
-			<articlepage>
-				<name>Article page</name>
-				<description>A page type used for articles</description>
-				<properties>
-					<heading>
-						<caption>Heading</caption>
-						<help>If the heading is not set, the page falls back to showing the name</help>
-					</heading>
-					<preamble>
-						<caption>Preamble</caption>
-						<help>Text before main boody</help>
-					</preamble>
-					<mainbody>
-						<caption>Main body</caption>
-						<help>The main body will be shown in the main content area of the page</help>
-					</mainbody>
-				</properties>
-			</articlepage>
-		</contenttypes>
-	</language>
+  <language name="English"
+            id="en">
+    <contenttypes>
+      <startpage>
+        <name>Start</name>
+        <description>Home page for the website</description>
+        <properties>
+          <heading>
+            <caption>Heading</caption>
+            <help>If the heading is not set, the page falls back to showing the name</help>
+          </heading>
+          <preamble>
+            <caption>Preamble</caption>
+            <help>Text before main boody</help>
+          </preamble>
+          <mainbody>
+            <caption>Main body</caption>
+            <help>The main body will be shown in the main content area of the page</help>
+          </mainbody>
+          <maincontentarea>
+            <caption>Huvudyta</caption>
+            <help>Huvudyta för block</help>
+          </maincontentarea>
+        </properties>
+      </startpage>
+      <articlepage>
+        <name>Article page</name>
+        <description>A page type used for articles</description>
+        <properties>
+          <heading>
+            <caption>Heading</caption>
+            <help>If the heading is not set, the page falls back to showing the name</help>
+          </heading>
+          <preamble>
+            <caption>Preamble</caption>
+            <help>Text before main boody</help>
+          </preamble>
+          <mainbody>
+            <caption>Main body</caption>
+            <help>The main body will be shown in the main content area of the page</help>
+          </mainbody>
+        </properties>
+      </articlepage>
+    </contenttypes>
+  </language>
 </languages>

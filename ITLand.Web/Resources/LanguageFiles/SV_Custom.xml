@@ -1,35 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <languages>
-	<language name="Svenska" id="sv">
-		<contenttypes>
-			<startpage>
-				<name>Startsida</name>
-				<description>Hemsidan för sajten med område för block och sidor</description>
-				<properties>
-					<heading>
-						<caption>Rubrik</caption>
-						<help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
-					</heading>
-					<mainbody>
-						<caption>Brödtext</caption>
-						<help>Huvudyta för fritext</help>
-					</mainbody>
-				</properties>
-			</startpage>
-			<articlepage>
-				<name>Article Page</name>
-				<description>A page type used for articles</description>
-				<properties>
-					<heading>
-						<caption>Rubrik</caption>
-						<help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
-					</heading>
-					<mainbody>
-						<caption>Brödtext</caption>
-						<help>Huvudyta för fritext</help>
-					</mainbody>
-				</properties>
-			</articlepage>
-		</contenttypes>
-	</language>
+  <language name="Svenska"
+            id="sv">
+    <contenttypes>
+      <startpage>
+        <name>Startsida</name>
+        <description>Hemsidan för sajten med område för block och sidor</description>
+        <properties>
+          <heading>
+            <caption>Rubrik</caption>
+            <help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
+          </heading>
+          <mainbody>
+            <caption>Brödtext</caption>
+            <help>Huvudyta för fritext</help>
+          </mainbody>
+          <maincontentarea>
+            <caption>Huvudyta</caption>
+            <help>Huvudyta för block</help>
+          </maincontentarea>
+        </properties>
+      </startpage>
+      <articlepage>
+        <name>Article Page</name>
+        <description>A page type used for articles</description>
+        <properties>
+          <heading>
+            <caption>Rubrik</caption>
+            <help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
+          </heading>
+          <mainbody>
+            <caption>Brödtext</caption>
+            <help>Huvudyta för fritext</help>
+          </mainbody>
+        </properties>
+      </articlepage>
+    </contenttypes>
+  </language>
 </languages>
