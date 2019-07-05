@@ -7,14 +7,14 @@ namespace ITLand.Web.Features.Start
 	{
 		public StartPageViewModel Create<TContent>(TContent content) where TContent : IContent
 		{
-			var model = BuildViewModel(content);
+			var model = CreateModel(content);
 			return model;
 		}
 
-		public StartPageViewModel BuildViewModel(IContent contentType)
+		public StartPageViewModel CreateModel(IContent contentType)
 		{
 			var startPage = contentType as StartPage;
-			return new StartPageViewModel(startPage?.Heading, startPage?.MainBody);
+			return new StartPageViewModel(startPage);
 		}
 	}
 }

@@ -6,11 +6,13 @@ namespace ITLand.Web.Features.Start
 	{
 		public string Heading { get; }
 		public XhtmlString MainBody { get; }
+		public ContentArea MainContentArea { get; set; }
 
-		public StartPageViewModel(string heading, XhtmlString mainBody)
+		public StartPageViewModel(StartPage startPage)
 		{
-			Heading = heading;
-			MainBody = mainBody;
+			Heading = startPage.Heading;
+			MainBody = startPage.MainBody;
+			MainContentArea = startPage.MainContentArea;
 		}
 	}
 }
