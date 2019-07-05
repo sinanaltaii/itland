@@ -7,12 +7,11 @@ namespace ITLand.Web.Features.Article
 	{
 		public ArticlePageViewModel Create<TContent>(TContent content) where TContent : IContent
 		{
-			var model = BuildViewModel(content);
-
+			var model = CreateModel(content);
 			return model;
 		}
 
-		public ArticlePageViewModel BuildViewModel(IContent contentType)
+		public ArticlePageViewModel CreateModel(IContent contentType)
 		{
 			var articlePage = contentType as ArticlePage;
 			return new ArticlePageViewModel(articlePage?.Heading, articlePage?.Preamble, articlePage?.MainBody);

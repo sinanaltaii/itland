@@ -6,7 +6,7 @@ namespace ITLand.Web.Features.Article
 	{
 		public string Heading { get; }
 		public string Preamble { get; }
-		public virtual XhtmlString MainBody { get; set; }
+		public XhtmlString MainBody { get; set; }
 
 		public ArticlePageViewModel(string heading, string preamble, XhtmlString mainBody)
 		{
