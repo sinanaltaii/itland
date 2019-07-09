@@ -5,11 +5,16 @@ namespace ITLand.Web.Features.Start
 {
 	public class StartPageController : PageController<StartPage>
 	{
+		private readonly StartPageViewModelFactory _factory;
+
+		public StartPageController(StartPageViewModelFactory factory)
+		{
+			_factory = factory;
+		}
+
 		public ActionResult Index(StartPage currentPage)
 		{
-			var factory = new StartPageViewModelFactory();
-			var model = factory.Create(currentPage);
-			
+			var model = _factory.Create(currentPage);
 			return View(model);
 		}
 	}
