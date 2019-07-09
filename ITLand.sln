@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITLand.Web", "ITLand.Web\ITLand.Web.csproj", "{B505E78C-AC0F-4002-B176-D363E9ABDA6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITLand.Tests", "ITLand.Tests\ITLand.Tests.csproj", "{C9A9D4E0-3C00-4840-A642-76462A2B34DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B505E78C-AC0F-4002-B176-D363E9ABDA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B505E78C-AC0F-4002-B176-D363E9ABDA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B505E78C-AC0F-4002-B176-D363E9ABDA6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A9D4E0-3C00-4840-A642-76462A2B34DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A9D4E0-3C00-4840-A642-76462A2B34DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A9D4E0-3C00-4840-A642-76462A2B34DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A9D4E0-3C00-4840-A642-76462A2B34DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
