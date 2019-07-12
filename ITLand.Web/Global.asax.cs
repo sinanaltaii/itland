@@ -2,7 +2,7 @@
 
 namespace ITLand.Web
 {
-	public class EPiServerApplication : EPiServer.Global
+	public class Global : EPiServer.Global
 	{
 		protected void Application_Start()
 		{
