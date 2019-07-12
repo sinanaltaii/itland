@@ -3,6 +3,7 @@ using StructureMap;
 using System.Linq;
 using System.Web.Mvc;
 using Xunit;
+using System;
 using Global = ITLand.Web.Global;
 using Shouldly;
 
@@ -16,7 +17,7 @@ namespace ITLand.Tests.IntegrationsTests.Bootstrapping
 			var controllersTypes = typeof(Global).Assembly.GetTypes()
 				.Where(t => t.IsAbstract == false)
 				.Where(t => typeof(Controller).IsAssignableFrom(t))
-				.Where(t => t.Name.EndsWith("Controller", System.StringComparison.OrdinalIgnoreCase));
+				.Where(t => t.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase));
 			var sut = CreateStructureMapConfiguration();
 			var registeredControllerTypes = sut.GetAllInstances<Controller>().Select(c => c.GetType());
 			controllersTypes.ShouldBe(registeredControllerTypes);
