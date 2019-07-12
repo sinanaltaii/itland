@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Language="C#" Inherits="ITLand.Web.EPiServerApplication" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Language="C#" Inherits="ITLand.Web.Global" %>
