@@ -180,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationsTests\Bootstrapping\BootstrappingTests.cs" />
+    <Compile Include="IntegrationsTests\EpiserverContentTypes\EpiserverContentTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
