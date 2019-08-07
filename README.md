@@ -1,5 +1,6 @@
 # itland
 Itland / episerver
+Itland is IT news page with articles about latest and cutting edge technology.
 
 #logins 
 Both SqlMembership and WindowsMembership provider are supported
