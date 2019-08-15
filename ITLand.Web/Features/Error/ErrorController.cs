@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Net;
+using System.Web.Mvc;
 
 namespace ITLand.Web.Features.Error
 {
@@ -6,7 +7,13 @@ namespace ITLand.Web.Features.Error
 	{
 		public ActionResult NotFound()
 		{
-			Response.StatusCode = 404;
+			Response.StatusCode = (int)HttpStatusCode.NotFound;
+			return View();
+		}
+
+		public ActionResult InternalServerError()
+		{
+			Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 			return View();
 		}
 	}
