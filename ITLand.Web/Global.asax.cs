@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace ITLand.Web
 {
@@ -7,6 +8,10 @@ namespace ITLand.Web
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
+			RouteTable.Routes.MapRoute(
+				"Error",
+				"Error",
+				new { controller = "Error", action = "NotFound" });
 		}
 	}
 }
