@@ -231,6 +231,7 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bootstrapping\AppBootstrapper.cs" />
     <Compile Include="Bootstrapping\ContianerInitialization.cs" />
     <Compile Include="Bootstrapping\StructureMapDependencyResolver.cs" />
