@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace ITLand.Web
@@ -7,6 +8,9 @@ namespace ITLand.Web
 	{
 		protected void Application_Start()
 		{
+			var razorViewEngine = ViewEngines.Engines.OfType<RazorViewEngine>().First();
+			RazorViewEngineConfig.RegisterViewLocations(razorViewEngine);
+			RazorViewEngineConfig.RegisterPartialViewLocations(razorViewEngine);
 			AreaRegistration.RegisterAllAreas();
 		}
 

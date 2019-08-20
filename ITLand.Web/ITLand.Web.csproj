@@ -232,6 +232,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\RazorViewEngineConfig.cs" />
     <Compile Include="Bootstrapping\AppBootstrapper.cs" />
     <Compile Include="Bootstrapping\ContianerInitialization.cs" />
     <Compile Include="Bootstrapping\StructureMapDependencyResolver.cs" />
@@ -244,7 +245,7 @@
     <Compile Include="Features\Article\ArticlePageController.cs" />
     <Compile Include="Features\Article\ArticlePageViewModel.cs" />
     <Compile Include="Features\Article\ArticlePageViewModeFactory.cs" />
-    <Compile Include="Features\Error\ErrorController.cs" />
+    <Compile Include="Features\Shared\Error\ErrorController.cs" />
     <Compile Include="Features\Shared\IPage.cs" />
     <Compile Include="Features\Shared\IViewModelFactory.cs" />
     <Compile Include="Features\Shared\Media\ImageFile.cs" />
@@ -293,8 +294,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\ArticlePage.cshtml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Shared\Error\NotFound.cshtml" />
+    <Content Include="Views\Shared\Error\InternalServerError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
