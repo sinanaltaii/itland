@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
 
-namespace ITLand.Web.Features.Error
+namespace ITLand.Web.Features.Shared.Error
 {
 	public class ErrorController : Controller
 	{
