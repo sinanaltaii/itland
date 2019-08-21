@@ -12,6 +12,7 @@ namespace ITLand.Web
 			RazorViewEngineConfig.RegisterViewLocations(razorViewEngine);
 			RazorViewEngineConfig.RegisterPartialViewLocations(razorViewEngine);
 			AreaRegistration.RegisterAllAreas();
+			MvcHandler.DisableMvcResponseHeader = true;
 		}
 
 		protected override void RegisterRoutes(RouteCollection routes)
