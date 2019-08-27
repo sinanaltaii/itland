@@ -15,7 +15,7 @@ namespace ITLand.Web.Features.Start
 	public class StartPage : PageData, IPage
 	{
 		[CultureSpecific]
-		[Display(Name = "Start page heading",
+		[Display(
 			GroupName = SystemTabNames.Content,
 			Order = 10)]
 		public virtual string Heading { get; set; }
