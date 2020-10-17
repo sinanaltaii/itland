@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ITLandCommerceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ITLand_Commerce.dbo.CartItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ShoppingCartId" />
+            <PropertyRef Name="ProcuctId" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="OriginalPrice" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ShoppingCartId" Type="int" Nullable="false" />
+          <Property Name="ProcuctId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="OriginalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CampaignPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DiscountedPrice" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="ShoppingCart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="modifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="isCheckedOut" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CartItem">
+          <End Role="ShoppingCart" Type="Self.ShoppingCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="ShoppingCartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITLandCommerceModelStoreContainer">
+          <EntitySet Name="ShoppingCart" EntityType="Self.ShoppingCart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItem" EntityType="Self.CartItem" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CartItem].[Id] AS [Id], 
+    [CartItem].[ShoppingCartId] AS [ShoppingCartId], 
+    [CartItem].[ProcuctId] AS [ProcuctId], 
+    [CartItem].[ProductName] AS [ProductName], 
+    [CartItem].[Quantity] AS [Quantity], 
+    [CartItem].[OriginalPrice] AS [OriginalPrice], 
+    [CartItem].[CampaignPrice] AS [CampaignPrice], 
+    [CartItem].[DiscountedPrice] AS [DiscountedPrice]
+    FROM [dbo].[CartItem] AS [CartItem]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CartItem" Association="Self.FK_CartItem">
+            <End Role="ShoppingCart" EntitySet="ShoppingCart" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ITLandCommerceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ShoppingCart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isCheckedOut" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CartItem" Relationship="Self.FK_CartItem" FromRole="ShoppingCart" ToRole="CartItem" />
+        </EntityType>
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ShoppingCartId" />
+            <PropertyRef Name="ProcuctId" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="OriginalPrice" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ShoppingCartId" Type="Int32" Nullable="false" />
+          <Property Name="ProcuctId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="OriginalPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CampaignPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DiscountedPrice" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="ShoppingCart" Relationship="Self.FK_CartItem" FromRole="CartItem" ToRole="ShoppingCart" />
+        </EntityType>
+        <Association Name="FK_CartItem">
+          <End Role="ShoppingCart" Type="Self.ShoppingCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="ShoppingCartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITLandCommerceDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ShoppingCart" EntityType="Self.ShoppingCart" />
+          <EntitySet Name="CartItem" EntityType="Self.CartItem" />
+          <AssociationSet Name="FK_CartItem" Association="Self.FK_CartItem">
+            <End Role="ShoppingCart" EntitySet="ShoppingCart" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ITLandCommerceModelStoreContainer" CdmEntityContainer="ITLandCommerceDbContext">
+          <EntitySetMapping Name="ShoppingCart">
+            <EntityTypeMapping TypeName="ITLandCommerceModel.ShoppingCart">
+              <MappingFragment StoreEntitySet="ShoppingCart">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="isCheckedOut" ColumnName="isCheckedOut" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItem">
+            <EntityTypeMapping TypeName="ITLandCommerceModel.CartItem">
+              <MappingFragment StoreEntitySet="CartItem">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShoppingCartId" ColumnName="ShoppingCartId" />
+                <ScalarProperty Name="ProcuctId" ColumnName="ProcuctId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+                <ScalarProperty Name="CampaignPrice" ColumnName="CampaignPrice" />
+                <ScalarProperty Name="DiscountedPrice" ColumnName="DiscountedPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
