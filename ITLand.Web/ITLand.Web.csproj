@@ -284,26 +284,26 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
-    <Compile Include="Features\Article\ArticlePage.cs" />
-    <Compile Include="Features\Article\ArticlePageController.cs" />
-    <Compile Include="Features\Article\ArticlePageViewModel.cs" />
-    <Compile Include="Features\Article\ArticlePageViewModeFactory.cs" />
-    <Compile Include="Features\Shared\Error\ErrorController.cs" />
-    <Compile Include="Features\Shared\IPage.cs" />
-    <Compile Include="Features\Shared\IViewModelFactory.cs" />
-    <Compile Include="Features\Shared\Media\ImageFile.cs" />
-    <Compile Include="Features\Shared\Media\Pdf.cs" />
-    <Compile Include="Features\Shared\Media\DefaultFileMedia.cs" />
-    <Compile Include="Features\Shared\Media\SvgFile.cs" />
-    <Compile Include="Features\Start\StartPageController.cs" />
-    <Compile Include="Features\Start\StartPageViewModel.cs" />
-    <Compile Include="Features\Start\StartPageViewModelFactory.cs" />
+    <Compile Include="Pages\ArticlePage.cs" />
+    <Compile Include="Controllers\ArticlePageController.cs" />
+    <Compile Include="Models\ArticlePageViewModel.cs" />
+    <Compile Include="Factories\ArticlePageViewModeFactory.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Pages\IPage.cs" />
+    <Compile Include="Factories\IViewModelFactory.cs" />
+    <Compile Include="Media\ImageFile.cs" />
+    <Compile Include="Media\Pdf.cs" />
+    <Compile Include="Media\DefaultFileMedia.cs" />
+    <Compile Include="Media\SvgFile.cs" />
+    <Compile Include="Controllers\StartPageController.cs" />
+    <Compile Include="Models\StartPageViewModel.cs" />
+    <Compile Include="Factories\StartPageViewModelFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Features\Start\StartPage.cs" />
+    <Compile Include="Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Features\Shared\SiteGroupNames.cs" />
+    <Compile Include="SiteGroupNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

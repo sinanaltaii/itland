@@ -3,7 +3,7 @@ using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Framework.DataAnnotations;
 
-namespace ITLand.Web.Features.Shared.Media
+namespace ITLand.Web.Media
 {
 	[ContentType(
 		DisplayName = "Image File",

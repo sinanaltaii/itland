@@ -1,7 +1,9 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Web.Mvc;
+using ITLand.Web.Features.Article;
+using ITLand.Web.Pages;
 
-namespace ITLand.Web.Features.Article
+namespace ITLand.Web.Controllers
 {
 	public class ArticlePageController : PageController<ArticlePage>
 	{

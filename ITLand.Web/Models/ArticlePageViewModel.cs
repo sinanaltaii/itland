@@ -1,6 +1,6 @@
 ﻿using EPiServer.Core;
 
-namespace ITLand.Web.Features.Article
+namespace ITLand.Web.Models
 {
 	public class ArticlePageViewModel
 	{

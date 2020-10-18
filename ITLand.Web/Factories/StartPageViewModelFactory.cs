@@ -1,9 +1,11 @@
 ﻿using EPiServer.Core;
 using ITLand.Web.Features.Shared;
+using ITLand.Web.Models;
+using ITLand.Web.Pages;
 
 namespace ITLand.Web.Features.Start
 {
-	public class StartPageViewModelFactory : IViewModelFactory<StartPageViewModel>
+    public class StartPageViewModelFactory : IViewModelFactory<StartPageViewModel>
 	{
 		public StartPageViewModel Create<TContent>(TContent content) where TContent : IContent
 		{

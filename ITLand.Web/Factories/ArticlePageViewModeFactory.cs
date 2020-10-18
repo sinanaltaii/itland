@@ -1,9 +1,11 @@
 ﻿using EPiServer.Core;
 using ITLand.Web.Features.Shared;
+using ITLand.Web.Models;
+using ITLand.Web.Pages;
 
 namespace ITLand.Web.Features.Article
 {
-	public class ArticlePageViewModeFactory : IViewModelFactory<ArticlePageViewModel>
+    public class ArticlePageViewModeFactory : IViewModelFactory<ArticlePageViewModel>
 	{
 		public ArticlePageViewModel Create<TContent>(TContent content) where TContent : IContent
 		{

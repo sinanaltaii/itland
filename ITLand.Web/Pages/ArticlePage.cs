@@ -5,7 +5,7 @@ using EPiServer.DataAnnotations;
 using EPiServer.Web;
 using ITLand.Web.Features.Shared;
 
-namespace ITLand.Web.Features.Article
+namespace ITLand.Web.Pages
 {
 	[ContentType(DisplayName = "Article",
 		GUID = "8f66bc01-f0d8-4372-ac20-a27ca7fea18f",

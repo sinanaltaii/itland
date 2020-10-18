@@ -3,7 +3,7 @@ using EPiServer.DataAnnotations;
 using EPiServer.Framework.Blobs;
 using EPiServer.Framework.DataAnnotations;
 
-namespace ITLand.Web.Features.Shared.Media
+namespace ITLand.Web.Media
 {
 	[ContentType(
 		DisplayName = "Svg File",
