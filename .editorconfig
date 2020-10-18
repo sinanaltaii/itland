@@ -1,0 +1,12 @@
+root = true
+
+[*]
+indent_style = space
+
+# Code files
+[*.{cs,csx,vb,vbx}]
+end_of_line                         = crlf
+trim_trailing_whitespace            = true
+indent_style                        = tab
+insert_final_newline                = true
+dotnet_sort_system_directives_first = true

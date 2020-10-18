@@ -1,8 +1,8 @@
-﻿using System;
+﻿using StructureMap;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Dependencies;
-using StructureMap;
 using IHttpDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 using IMvcDependencyResolver = System.Web.Mvc.IDependencyResolver;
 
@@ -57,6 +57,7 @@ namespace ITLand.Web.Bootstrapping
 		{
 			Dispose(false);
 		}
+
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!disposing)
